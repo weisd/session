@@ -21,9 +21,10 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/beego/redigo/redis"
+	// "github.com/beego/redigo/redis"
+	"github.com/garyburd/redigo/redis"
 
-	"github.com/macaron-contrib/session"
+	"github.com/weisd/session"
 )
 
 var redispder = &RedisProvider{}

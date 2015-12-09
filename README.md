@@ -3,18 +3,18 @@ session
 
 Middleware session is the session manager of [Macaron](https://github.com/Unknwon/macaron). It can use many session providers, including cookie, memory, file, redis, memcache, PostgreSQL, MySQL, and couchbase.
 
-[API Reference](https://gowalker.org/github.com/macaron-contrib/session)
+[API Reference](https://gowalker.org/github.com/weisd/session)
 
 ### Installation
 
-	go get github.com/macaron-contrib/session
+	go get github.com/weisd/session
 
 ## Usage
 
 ```go
 import (
 	"github.com/Unknwon/macaron"
-	"github.com/macaron-contrib/session"
+	"github.com/weisd/session"
 )
 
 func main() {
@@ -43,11 +43,11 @@ To use redis, memcache, PostgreSQL, MySQL, or couchbase as adapter, you should i
 
 ```go
 import (
-	_ "github.com/macaron-contrib/session/redis"
-	_ "github.com/macaron-contrib/session/memcache"
-	_ "github.com/macaron-contrib/session/postgres"
-	_ "github.com/macaron-contrib/session/mysql"
-	_ "github.com/macaron-contrib/session/couchbase"
+	_ "github.com/weisd/session/redis"
+	_ "github.com/weisd/session/memcache"
+	_ "github.com/weisd/session/postgres"
+	_ "github.com/weisd/session/mysql"
+	_ "github.com/weisd/session/couchbase"
 )
 ```
 

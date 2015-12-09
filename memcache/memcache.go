@@ -22,7 +22,7 @@ import (
 
 	"github.com/bradfitz/gomemcache/memcache"
 
-	"github.com/macaron-contrib/session"
+	"github.com/weisd/session"
 )
 
 var (

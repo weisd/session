@@ -22,7 +22,7 @@ import (
 
 	"github.com/couchbaselabs/go-couchbase"
 
-	"github.com/macaron-contrib/session"
+	"github.com/weisd/session"
 )
 
 var couchbpder = &CouchbaseProvider{}

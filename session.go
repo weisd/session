@@ -26,7 +26,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/Unknwon/macaron"
+	// "github.com/Unknwon/macaron"
 )
 
 func Version() string {
@@ -67,7 +67,7 @@ func prepareOptions(options []Options) Options {
 	}
 	opt.EnableSetCookie = true
 	if len(opt.CookieName) == 0 {
-		opt.CookieName = "MacaronSession"
+		opt.CookieName = "EchoSession"
 	}
 	if len(opt.CookiePath) == 0 {
 		opt.CookiePath = "/"
@@ -86,101 +86,101 @@ func prepareOptions(options []Options) Options {
 	return opt
 }
 
-// ___________.____       _____    _________ ___ ___
-// \_   _____/|    |     /  _  \  /   _____//   |   \
-//  |    __)  |    |    /  /_\  \ \_____  \/    ~    \
-//  |     \   |    |___/    |    \/        \    Y    /
-//  \___  /   |_______ \____|__  /_______  /\___|_  /
-//      \/            \/       \/        \/       \/
+// // ___________.____       _____    _________ ___ ___
+// // \_   _____/|    |     /  _  \  /   _____//   |   \
+// //  |    __)  |    |    /  /_\  \ \_____  \/    ~    \
+// //  |     \   |    |___/    |    \/        \    Y    /
+// //  \___  /   |_______ \____|__  /_______  /\___|_  /
+// //      \/            \/       \/        \/       \/
 
-type Flash struct {
-	ctx *macaron.Context
-	url.Values
-	ErrorMsg, WarningMsg, InfoMsg, SuccessMsg string
-}
+// type Flash struct {
+// 	ctx *macaron.Context
+// 	url.Values
+// 	ErrorMsg, WarningMsg, InfoMsg, SuccessMsg string
+// }
 
-func (f *Flash) set(name, msg string, current ...bool) {
-	isShow := false
-	if (len(current) == 0 && macaron.FlashNow) ||
-		(len(current) > 0 && current[0]) {
-		isShow = true
-	}
+// func (f *Flash) set(name, msg string, current ...bool) {
+// 	isShow := false
+// 	if (len(current) == 0 && macaron.FlashNow) ||
+// 		(len(current) > 0 && current[0]) {
+// 		isShow = true
+// 	}
 
-	if isShow {
-		f.ctx.Data["Flash"] = f
-	} else {
-		f.Set(name, msg)
-	}
-}
+// 	if isShow {
+// 		f.ctx.Data["Flash"] = f
+// 	} else {
+// 		f.Set(name, msg)
+// 	}
+// }
 
-func (f *Flash) Error(msg string, current ...bool) {
-	f.ErrorMsg = msg
-	f.set("error", msg, current...)
-}
+// func (f *Flash) Error(msg string, current ...bool) {
+// 	f.ErrorMsg = msg
+// 	f.set("error", msg, current...)
+// }
 
-func (f *Flash) Warning(msg string, current ...bool) {
-	f.WarningMsg = msg
-	f.set("warning", msg, current...)
-}
+// func (f *Flash) Warning(msg string, current ...bool) {
+// 	f.WarningMsg = msg
+// 	f.set("warning", msg, current...)
+// }
 
-func (f *Flash) Info(msg string, current ...bool) {
-	f.InfoMsg = msg
-	f.set("info", msg, current...)
-}
+// func (f *Flash) Info(msg string, current ...bool) {
+// 	f.InfoMsg = msg
+// 	f.set("info", msg, current...)
+// }
 
-func (f *Flash) Success(msg string, current ...bool) {
-	f.SuccessMsg = msg
-	f.set("success", msg, current...)
-}
+// func (f *Flash) Success(msg string, current ...bool) {
+// 	f.SuccessMsg = msg
+// 	f.set("success", msg, current...)
+// }
 
 type store struct {
 	RawStore
 	*Manager
 }
 
-// Sessioner is a middleware that maps a session.SessionStore service into the Macaron handler chain.
-// An single variadic session.Options struct can be optionally provided to configure.
-func Sessioner(options ...Options) macaron.Handler {
-	opt := prepareOptions(options)
-	manager, err := NewManager(opt.Provider, &opt.Config)
-	if err != nil {
-		panic(err)
-	}
-	go manager.GC()
+// // Sessioner is a middleware that maps a session.SessionStore service into the Macaron handler chain.
+// // An single variadic session.Options struct can be optionally provided to configure.
+// func Sessioner(options ...Options) macaron.Handler {
+// 	opt := prepareOptions(options)
+// 	manager, err := NewManager(opt.Provider, &opt.Config)
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// 	go manager.GC()
 
-	return func(ctx *macaron.Context) {
-		// FIXME: should I panic for error?
-		sess, _ := manager.SessionStart(ctx.Resp, ctx.Req.Request)
+// 	return func(ctx *macaron.Context) {
+// 		// FIXME: should I panic for error?
+// 		sess, _ := manager.SessionStart(ctx.Resp, ctx.Req.Request)
 
-		// Get flash.
-		vals, _ := url.ParseQuery(ctx.GetCookie("macaron_flash"))
-		if len(vals) > 0 {
-			f := &Flash{Values: vals}
-			f.ErrorMsg = f.Get("error")
-			f.SuccessMsg = f.Get("success")
-			f.InfoMsg = f.Get("info")
-			f.WarningMsg = f.Get("warning")
-			ctx.Data["Flash"] = f
-			ctx.SetCookie("macaron_flash", "", -1, opt.CookiePath)
-		}
+// 		// Get flash.
+// 		vals, _ := url.ParseQuery(ctx.GetCookie("macaron_flash"))
+// 		if len(vals) > 0 {
+// 			f := &Flash{Values: vals}
+// 			f.ErrorMsg = f.Get("error")
+// 			f.SuccessMsg = f.Get("success")
+// 			f.InfoMsg = f.Get("info")
+// 			f.WarningMsg = f.Get("warning")
+// 			ctx.Data["Flash"] = f
+// 			ctx.SetCookie("macaron_flash", "", -1, opt.CookiePath)
+// 		}
 
-		f := &Flash{ctx, url.Values{}, "", "", "", ""}
-		ctx.Resp.Before(func(macaron.ResponseWriter) {
-			sess.SessionRelease(ctx.Resp)
+// 		f := &Flash{ctx, url.Values{}, "", "", "", ""}
+// 		ctx.Resp.Before(func(macaron.ResponseWriter) {
+// 			sess.SessionRelease(ctx.Resp)
 
-			if flash := f.Encode(); len(flash) > 0 {
-				ctx.SetCookie("macaron_flash", flash, 0, opt.CookiePath)
-			}
-		})
+// 			if flash := f.Encode(); len(flash) > 0 {
+// 				ctx.SetCookie("macaron_flash", flash, 0, opt.CookiePath)
+// 			}
+// 		})
 
-		ctx.Map(f)
-		s := store{
-			RawStore: sess,
-			Manager:  manager,
-		}
-		ctx.MapTo(s, (*Store)(nil))
-	}
-}
+// 		ctx.Map(f)
+// 		s := store{
+// 			RawStore: sess,
+// 			Manager:  manager,
+// 		}
+// 		ctx.MapTo(s, (*Store)(nil))
+// 	}
+// }
 
 // Provider contains global session methods and saved SessionStores.
 // it can operate a SessionStore by its id.

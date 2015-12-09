@@ -52,7 +52,7 @@ import (
 
 	_ "github.com/lib/pq"
 
-	"github.com/macaron-contrib/session"
+	"github.com/weisd/session"
 )
 
 var postgresqlpder = &PostgresqlProvider{}

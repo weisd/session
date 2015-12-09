@@ -31,7 +31,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
-	"github.com/macaron-contrib/session"
+	"github.com/weisd/session"
 )
 
 var mysqlpder = &MysqlProvider{}

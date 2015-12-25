@@ -43,7 +43,7 @@ func EchoSessioner(options ...Options) echo.MiddlewareFunc {
 				c.Error(err)
 			}
 
-			sess.SessionRelease(c.Response())
+			s.SessionRelease(c.Response())
 
 			return nil
 		}
